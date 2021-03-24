@@ -88,19 +88,6 @@ class TelnetClient:
         # 若buffer中没有预期字符串，则每隔0.5s向屏幕发送空格（可通过spaceflag控制是否发送）
         b, c, d = self.tn.expect(expect, timeout=timeout)
         result = d.decode()
-        # result = ""
-        # while timeout > 0:
-        #     b, c, d = self.tn.expect(expect, timeout=0.5)
-        #     result += d.decode()
-        #     if b == -1:
-        #         if spaceflag:
-        #             # self.tn.write(b' ')
-        #             pass
-        #         timeout -= 0.5
-        #     else:
-        #         break
-        # result = re.sub(r"(\x08)+\s+((\x08)+)", "", result)#回读异常处理
-        # result = re.sub(r" --More-- ", "", result)#回读异常处理
         result = re.sub(r"\r{1,2}", "", result).strip()
         if logflag:
             log.info(result)
